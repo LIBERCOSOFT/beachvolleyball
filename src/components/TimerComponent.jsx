@@ -54,7 +54,7 @@ const TimerComponent = () => {
   });
 
   return (
-    <div>
+    <div style={{ padding: '10px', border: '1px solid black' }}>
       <div>
         <button type='button' onClick={handleIncrease}>
           +

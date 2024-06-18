@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useRef, useEffect, useState } from 'react';
 
 const EliminatedTeamsComponent = ({
@@ -9,6 +8,9 @@ const EliminatedTeamsComponent = ({
   handleScoreIncrease,
   handleTransfer,
   handleDelete,
+  handleDragDrop,
+  handleDragOver,
+  handleDragStart,
 }) => {
   const ulRef = useRef(null);
   const [isEmpty, setIsEmpty] = useState(true);
@@ -24,52 +26,67 @@ const EliminatedTeamsComponent = ({
   }, [teams]);
 
   return (
-    <div>
+    <div style={{ padding: '10px', border: '1px solid black' }}>
       <h2>Eliminated</h2>
-      {isEmpty && (
-        <div style={{ border: '2px solid green', width: '30vw' }}>
-          Drop here
-        </div>
-      )}
-      {teams.length > 0 && (
-        <ul ref={ulRef}>
-          {teams.map(
-            (team, index) =>
-              !team.active && (
-                <li key={index}>
-                  <button type='button'>Drag</button>
-                  <input
-                    type='text'
-                    value={team.name}
-                    onChange={(e) => handleNameInput(e, index)}
-                  />
-                  <button
-                    type='button'
-                    onClick={() => handleScoreDecrease(index)}
-                  >
-                    -
-                  </button>
-                  <span>{teams[index].score}</span>
-                  <button
-                    type='button'
-                    onClick={() => handleScoreIncrease(index)}
-                  >
-                    +
-                  </button>
-                  <button type='button' onClick={() => handleTransfer(index)}>
-                    Transfer
-                  </button>
-                  <button type='button' onClick={() => handleDelete(index)}>
-                    Delete
-                  </button>
-                </li>
-              ),
-          )}
-        </ul>
-      )}
-      <button type='button' onClick={() => handleAddTeam('eliminated')}>
-        Add team
-      </button>
+      <div
+        onDragOver={handleDragOver}
+        onDrop={(e) => handleDragDrop(e)}
+        id='eliminated'
+      >
+        {isEmpty && (
+          <div
+            style={{ border: '2px solid green', width: '30vw' }}
+            id='eliminated-1'
+          >
+            Drop here
+          </div>
+        )}
+        {teams.length > 0 && (
+          <ul ref={ulRef}>
+            {teams.map(
+              (team, index) =>
+                !team.active && (
+                  <li key={index} draggable>
+                    <button
+                      type='button'
+                      onDragStart={handleDragStart(index)}
+                      onDragOver={handleDragOver}
+                    >
+                      Drag
+                    </button>
+                    <input
+                      type='text'
+                      value={team.name}
+                      onChange={(e) => handleNameInput(e, index)}
+                    />
+                    <button
+                      type='button'
+                      onClick={() => handleScoreDecrease(index)}
+                    >
+                      -
+                    </button>
+                    <span>{teams[index].score}</span>
+                    <button
+                      type='button'
+                      onClick={() => handleScoreIncrease(index)}
+                    >
+                      +
+                    </button>
+                    <button type='button' onClick={() => handleTransfer(index)}>
+                      Transfer
+                    </button>
+                    <button type='button' onClick={() => handleDelete(index)}>
+                      Delete
+                    </button>
+                  </li>
+                ),
+            )}
+          </ul>
+        )}
+        <button type='button' onClick={() => handleAddTeam('eliminated')}>
+          Add team
+        </button>
+      </div>
     </div>
   );
 };
