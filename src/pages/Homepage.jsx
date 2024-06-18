@@ -3,37 +3,49 @@ import { useState } from 'react';
 import ActiveTeamsComponent from '../components/ActiveTeamsComponent';
 
 const Homepage = () => {
-  // Active Teams Component
-  const [activeTeams, setActiveTeams] = useState([]);
+  const [teams, setTeams] = useState([]);
 
   const handleAddTeam = () => {
-    setActiveTeams([
-      ...activeTeams,
+    setTeams([
+      ...teams,
       {
         name: '',
         score: 0,
+        active: true,
       },
     ]);
   };
 
   const handleNameInput = (e, index) => {
-    const newTeams = [...activeTeams];
+    const newTeams = [...teams];
     newTeams[index].name = e.target.value;
-    setActiveTeams(newTeams);
+    setTeams(newTeams);
   };
 
   const handleScoreIncrease = (index) => {
-    const newTeams = [...activeTeams];
+    const newTeams = [...teams];
     newTeams[index].score += 1;
-    setActiveTeams(newTeams);
+    setTeams(newTeams);
   };
 
   const handleScoreDecrease = (index) => {
-    const newTeams = [...activeTeams];
+    const newTeams = [...teams];
     if (newTeams[index].score > 0) {
       newTeams[index].score -= 1;
     }
-    setActiveTeams(newTeams);
+    setTeams(newTeams);
+  };
+
+  const handleTransfer = (index) => {
+    const newTeams = [...teams];
+    newTeams[index].active = !newTeams[index].active;
+    setTeams(newTeams);
+  };
+
+  const handleDelete = (index) => {
+    const newTeams = [...teams];
+    newTeams.splice(index, 1);
+    setTeams(newTeams);
   };
 
   // Eliminated Teams Component
@@ -42,11 +54,13 @@ const Homepage = () => {
     <>
       {/* <TimerComponent /> */}
       <ActiveTeamsComponent
-        activeTeams={activeTeams}
+        activeTeams={teams}
         handleAddTeam={handleAddTeam}
         handleNameInput={handleNameInput}
         handleScoreDecrease={handleScoreDecrease}
         handleScoreIncrease={handleScoreIncrease}
+        handleTransfer={handleTransfer}
+        handleDelete={handleDelete}
       />
     </>
   );
