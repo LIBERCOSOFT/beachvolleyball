@@ -1,17 +1,18 @@
 import { useState } from 'react';
 // import TimerComponent from '../components/TimerComponent';
 import ActiveTeamsComponent from '../components/ActiveTeamsComponent';
+import EliminatedTeamsComponent from '../components/EliminatedTeamComponent';
 
 const Homepage = () => {
   const [teams, setTeams] = useState([]);
 
-  const handleAddTeam = () => {
+  const handleAddTeam = (type) => {
     setTeams([
       ...teams,
       {
         name: '',
         score: 0,
-        active: true,
+        active: type === 'active' ? true : false,
       },
     ]);
   };
@@ -48,13 +49,20 @@ const Homepage = () => {
     setTeams(newTeams);
   };
 
-  // Eliminated Teams Component
-
   return (
     <>
       {/* <TimerComponent /> */}
       <ActiveTeamsComponent
-        activeTeams={teams}
+        teams={teams}
+        handleAddTeam={handleAddTeam}
+        handleNameInput={handleNameInput}
+        handleScoreDecrease={handleScoreDecrease}
+        handleScoreIncrease={handleScoreIncrease}
+        handleTransfer={handleTransfer}
+        handleDelete={handleDelete}
+      />
+      <EliminatedTeamsComponent
+        teams={teams}
         handleAddTeam={handleAddTeam}
         handleNameInput={handleNameInput}
         handleScoreDecrease={handleScoreDecrease}

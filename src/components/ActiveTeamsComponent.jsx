@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
+import { useRef, useEffect, useState } from 'react';
+
 const ActiveTeamsComponent = ({
-  activeTeams,
+  teams,
   handleAddTeam,
   handleNameInput,
   handleScoreDecrease,
@@ -8,17 +10,30 @@ const ActiveTeamsComponent = ({
   handleTransfer,
   handleDelete,
 }) => {
+  const myListRef = useRef(null);
+  const [isEmpty, setIsEmpty] = useState(true);
+
+  useEffect(() => {
+    if (myListRef.current === null) {
+      setIsEmpty(true);
+    } else if (myListRef.current.getElementsByTagName('li').length < 1) {
+      setIsEmpty(true);
+    } else {
+      setIsEmpty(false);
+    }
+  }, [teams]);
+
   return (
     <div>
       <h2>Active teams</h2>
-      {activeTeams.length < 1 && (
+      {isEmpty && (
         <div style={{ border: '2px solid green', width: '30vw' }}>
           Drop here
         </div>
       )}
-      {activeTeams.length > 0 && (
-        <ul>
-          {activeTeams.map(
+      {teams.length > 0 && (
+        <ul ref={myListRef}>
+          {teams.map(
             (team, index) =>
               team.active && (
                 <li key={index}>
@@ -34,7 +49,7 @@ const ActiveTeamsComponent = ({
                   >
                     -
                   </button>
-                  <span>{activeTeams[index].score}</span>
+                  <span>{teams[index].score}</span>
                   <button
                     type='button'
                     onClick={() => handleScoreIncrease(index)}
@@ -52,7 +67,7 @@ const ActiveTeamsComponent = ({
           )}
         </ul>
       )}
-      <button type='button' onClick={handleAddTeam}>
+      <button type='button' onClick={() => handleAddTeam('active')}>
         Add team
       </button>
     </div>
