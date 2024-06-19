@@ -29,8 +29,7 @@ const Homepage = () => {
     setTeams(newTeams);
   }, [setTeams, teams]);
 
-  const handleScoreIncrease = useCallback((event) => {
-    const id = event.target.closest('li').dataset.teamid;
+  const handleScoreIncrease = useCallback((id) => () => {
     const index = findTeam(teams, id);
     const newTeams = [...teams];
     newTeams[index].score += 1;

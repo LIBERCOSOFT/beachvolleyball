@@ -51,7 +51,7 @@ const EliminatedTeamsComponent = ({
                 <span>{team.score}</span>
                 <button
                   type="button"
-                  onClick={handleScoreIncrease}
+                  onClick={handleScoreIncrease(team.id)}
                 >
                   +
                 </button>
