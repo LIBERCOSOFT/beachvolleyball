@@ -9,58 +9,69 @@ const Homepage = () => {
   const [teams, setTeams] = useState([]);
   const [draggedIndex, setDraggedIndex] = useState(null);
 
-  const handleAddTeam = (type) => {
+  const handleAddTeam = useCallback((event) => {
+    const type = event.target.id;
     setTeams((prevState) => [
       ...prevState,
-      {
-        id: uuid(),
-        name: '',
-        score: 0,
-        active: type === 'active',
-      },
+      { id: uuid(), name: '', score: 0, active: type === 'active' },
     ]);
-  };
+  }, []);
 
-  const handleNameInput = useCallback((event) => {
-    const id = event.target.closest('li').dataset.teamid;
-    const index = findTeam(teams, id);
-    const newTeams = [...teams];
-    newTeams[index].name = event.target.value;
-    setTeams(newTeams);
-  }, [setTeams, teams]);
+  const handleNameInput = useCallback(
+    (event) => {
+      const id = event.target.closest('li').dataset.teamid;
+      const index = findTeam(teams, id);
+      const newTeams = [...teams];
+      newTeams[index].name = event.target.value;
+      setTeams(newTeams);
+    },
+    [setTeams, teams],
+  );
 
-  const handleScoreIncrease = useCallback((id) => () => {
-    const index = findTeam(teams, id);
-    const newTeams = [...teams];
-    newTeams[index].score += 1;
-    setTeams(newTeams);
-  }, [setTeams, teams]);
+  const handleScoreIncrease = useCallback(
+    (id) => () => {
+      const index = findTeam(teams, id);
+      const newTeams = [...teams];
+      newTeams[index].score += 1;
+      setTeams(newTeams);
+    },
+    [setTeams, teams],
+  );
 
-  const handleScoreDecrease = useCallback((event) => {
-    const id = event.target.closest('li').dataset.teamid;
-    const index = findTeam(teams, id);
-    const newTeams = [...teams];
-    if (newTeams[index].score > 0) {
-      newTeams[index].score -= 1;
-    }
-    setTeams(newTeams);
-  }, [setTeams, teams]);
+  const handleScoreDecrease = useCallback(
+    (event) => {
+      const id = event.target.closest('li').dataset.teamid;
+      const index = findTeam(teams, id);
+      const newTeams = [...teams];
+      if (newTeams[index].score > 0) {
+        newTeams[index].score -= 1;
+      }
+      setTeams(newTeams);
+    },
+    [setTeams, teams],
+  );
 
-  const handleTransfer = useCallback((event) => {
-    const id = event.target.closest('li').dataset.teamid;
-    const index = findTeam(teams, id);
-    const newTeams = [...teams];
-    newTeams[index].active = !newTeams[index].active;
-    setTeams(newTeams);
-  }, [setTeams, teams]);
+  const handleTransfer = useCallback(
+    (event) => {
+      const id = event.target.closest('li').dataset.teamid;
+      const index = findTeam(teams, id);
+      const newTeams = [...teams];
+      newTeams[index].active = !newTeams[index].active;
+      setTeams(newTeams);
+    },
+    [setTeams, teams],
+  );
 
-  const handleDelete = useCallback((event) => {
-    const id = event.target.closest('li').dataset.teamid;
-    const index = findTeam(teams, id);
-    const newTeams = [...teams];
-    newTeams.splice(index, 1);
-    setTeams(newTeams);
-  }, [setTeams, teams]);
+  const handleDelete = useCallback(
+    (event) => {
+      const id = event.target.closest('li').dataset.teamid;
+      const index = findTeam(teams, id);
+      const newTeams = [...teams];
+      newTeams.splice(index, 1);
+      setTeams(newTeams);
+    },
+    [setTeams, teams],
+  );
 
   const handleDragStart = (id) => {
     const index = findTeam(teams, id);
