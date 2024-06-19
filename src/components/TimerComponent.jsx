@@ -56,22 +56,23 @@ const TimerComponent = () => {
   return (
     <div style={{ padding: '10px', border: '1px solid black' }}>
       <div>
-        <button type='button' onClick={handleIncrease}>
+        <button type="button" onClick={handleIncrease}>
           +
         </button>
-        <button type='button' onClick={handleDecrease}>
+        <button type="button" onClick={handleDecrease}>
           -
         </button>
       </div>
       <h2>
-        {minutes < 10 ? `0${minutes}` : minutes}:
+        {minutes < 10 ? `0${minutes}` : minutes}
+        :
         {seconds < 10 ? `0${seconds}` : seconds}
       </h2>
       <div>
-        <button type='button' onClick={startTimer}>
+        <button type="button" onClick={startTimer}>
           {isActive ? 'Pause' : 'Start'}
         </button>
-        <button type='button' onClick={resetTimer}>
+        <button type="button" onClick={resetTimer}>
           Reset
         </button>
       </div>
